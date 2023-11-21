@@ -21,16 +21,16 @@ struct Marker: Hashable {
 
     static func markers() -> [Marker] {
         return [
-            Marker(degrees: 0, label: "S"),
+            Marker(degrees: 0, label: "N"),
             Marker(degrees: 30),
             Marker(degrees: 60),
-            Marker(degrees: 90, label: "W"),
+            Marker(degrees: 90, label: "E"),
             Marker(degrees: 120),
             Marker(degrees: 150),
-            Marker(degrees: 180, label: "N"),
+            Marker(degrees: 180, label: "S"),
             Marker(degrees: 210),
             Marker(degrees: 240),
-            Marker(degrees: 270, label: "E"),
+            Marker(degrees: 270, label: "W"),
             Marker(degrees: 300),
             Marker(degrees: 330)
         ]

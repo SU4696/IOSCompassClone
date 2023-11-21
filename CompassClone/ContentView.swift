@@ -19,27 +19,27 @@ struct ContentView: View  {
     
     private func angleLabel(label:Int64) -> String {
         if label == 0{
-            return "S"}
+            return "N"}
         else if label > 0 && label<90{
-            return "SW"
+            return "SE"
         }
         else if label == 90{
-            return "W"
+            return "E"
         }
         else if label > 90 && label<180{
             return "NW"
         }
         else if label == 180{
-            return "N"
+            return "S"
         }
         else if label > 180 && label<270{
-            return "NE"
+            return "NW"
         }
         else if label == 270{
-            return "E"
+            return "W"
         }
         else if label > 270{
-            return "SE"
+            return "SW"
         }
         return ""
     }
@@ -50,31 +50,27 @@ struct ContentView: View  {
     
     var body: some View {
         VStack {
-            Capsule()
-                .frame(width: 5,
-                       height: 50)
-            ZStack {
-                // 2
-                ForEach(Marker.markers(), id: \.self) { marker in
-                    MarkerCompassView(marker: marker,
-                                      compassDegress: self.compassHeading.degrees)
+            VStack{
+                Capsule()
+                    .frame(width: 5,
+                           height: 50)
+                ZStack {
+                    // 2
+                    ForEach(Marker.markers(), id: \.self) { marker in
+                        MarkerCompassView(marker: marker,
+                                          compassDegress: self.compassHeading.degrees)
+                        
+                    }
                     
                 }
+                .frame(width: 300,
+                       height: 300)
+                .rotationEffect(Angle(degrees: self.compassHeading.degrees))
+                // 3
+                .statusBar(hidden: true)
                 
             }
-            .frame(width: 300,
-                   height: 300)
-            .rotationEffect(Angle(degrees: self.compassHeading.degrees))
-            // 3
-            .statusBar(hidden: true)
-            //            degreePrint = Int64(self.compassHeading.degrees)
-        }.accessibilityHidden(true).onAppear {
-            fetchLocationData() // Fetch location data when the view appears
-            if let altitude = locationMananger.location?.altitude {
-                self.altitude = altitude
-            }
-        }
-        VStack {
+            .accessibilityHidden(true)
             
             Text("\(abs(Int64(self.compassHeading.degrees))) ° \(angleLabel(label:abs(Int64(self.compassHeading.degrees)))) ")
                 .font(.largeTitle)
@@ -100,7 +96,12 @@ struct ContentView: View  {
            
             
            
-        }.accessibilityElement(children: .combine)
+        }.accessibilityElement(children: .combine).onAppear {
+            fetchLocationData() // Fetch location data when the view appears
+            if let altitude = locationMananger.location?.altitude {
+                self.altitude = altitude
+            }
+        }
         
     }
     private func fetchLocationData() {
